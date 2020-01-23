@@ -7,16 +7,17 @@ from drl.environments.util import to_bin
 class DiscretizedCartPole:
     def __init__(self, bins=9):
         self.env = gym.make('CartPole-v0')
-        self.starting_state = self.reset()
         self.done = False
         self.bins = bins
         self.cart_position_bins = np.linspace(-2.4, 2.4, self.bins)
         self.cart_velocity_bins = np.linspace(-2, 2, self.bins)
         self.pole_angle_bins = np.linspace(-0.4, 0.4, self.bins)
         self.pole_velocity_bins = np.linspace(-3.5, 3.5, self.bins)
+        self.starting_state = self.transform(self.reset())
 
     def reset(self):
-        self.starting_state = self.env.reset()
+        self.starting_state = self.transform(self.env.reset())
+        self.done = False
         return self.starting_state
 
     def transform(self, observation):
@@ -30,6 +31,10 @@ class DiscretizedCartPole:
 
     def is_terminal(self):
         return self.done
+
+    def generate_actions(self):
+        for action in range(self.env.action_space.n):
+            yield action
 
     def step(self, action):
         observation, reward, done, info = self.env.step(action)
