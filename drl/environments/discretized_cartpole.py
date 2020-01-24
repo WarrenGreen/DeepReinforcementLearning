@@ -5,8 +5,9 @@ from drl.environments.util import to_bin
 
 
 class DiscretizedCartPole:
-    def __init__(self, bins=9):
+    def __init__(self, bins=9, seed=543):
         self.env = gym.make('CartPole-v0')
+        self.env.seed(seed)
         self.done = False
         self.bins = bins
         self.cart_position_bins = np.linspace(-2.4, 2.4, self.bins)

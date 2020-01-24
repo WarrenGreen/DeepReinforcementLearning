@@ -1,6 +1,7 @@
 from collections import defaultdict
 from random import choice
 
+from drl.agents.agent import Agent
 from drl.agents.learning_rate_schedules import scaled_learning_rate
 
 
@@ -14,7 +15,7 @@ def exploration_function(frequency_cutoff, exploration_reward=10.0):
     return fn
 
 
-class QLearningAgent:
+class QLearningAgent(Agent):
     def __init__(self, env, epochs, frequency_cutoff=3, gamma=1.0, learning_rate_fn=None):
         self.env = env
         self.gamma = gamma
